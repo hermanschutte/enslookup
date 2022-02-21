@@ -43,6 +43,10 @@ router.get('/:address', function(req, res, next) {
     const getTextRecords = async () => {
         const resolver = await provider.getResolver(req.params.address);
         
+        if (!resolver) {
+            return [];
+        }
+
         const results = await Promise.all(keys.map(async (key) => (
             {
                 key: key,
@@ -59,7 +63,7 @@ router.get('/:address', function(req, res, next) {
 
     getTextRecords().then((response) => {
         res.json(response);
-    })
+    });
 });
 
 module.exports = router;
