@@ -1,8 +1,6 @@
 var express = require('express');
 var path = require('path');
 
-var indexRouter = require('./routes/index');
-
 var textRecordsRouter = require('./routes/text-records');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -19,8 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/text-records', textRecordsRouter);
+app.use('/', textRecordsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

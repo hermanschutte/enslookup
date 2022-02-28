@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development node ./bin/www",
+    "dev": "NODE_ENV=development nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -16,5 +16,8 @@
     "md5": "^2.2.1",
     "pug": "^2.0.4",
     "uglify-js": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

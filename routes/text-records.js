@@ -23,6 +23,7 @@ router.get('/:address', function(req, res, next) {
 
     const keys = [
         'avatar',
+        'name',
         'description',
         'display',
         'email',
@@ -33,6 +34,7 @@ router.get('/:address', function(req, res, next) {
         'phone',
         'url',
         'com.discord',
+        'com.reddit',
         'com.github',
         'com.linkedin',
         'com.twitter',
@@ -47,16 +49,13 @@ router.get('/:address', function(req, res, next) {
             return [];
         }
 
-        const results = await Promise.all(keys.map(async (key) => (
-            {
-                key: key,
-                value: await resolver.getText(key)
-            }
-        )));
+        const promises = keys.map(async (key) => ({ key: key, value: await resolver.getText(key) }));
 
+        promises.push({ key: 'wallet.bitcoin', value: await resolver.getAddress(0) });
+        promises.push({ key: 'wallet.ethereum', value: await resolver.getAddress() });
+
+        const results = await Promise.all(promises);
         const records = results.reduce((obj, item) => (obj[item.key] = item.value, obj), {});
-
-        records['address'] = await resolver.getAddress();
 
         return records;
     };
